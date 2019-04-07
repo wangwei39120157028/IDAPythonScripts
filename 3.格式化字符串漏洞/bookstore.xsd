@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="Vulnerability Query Analysis Report" elementFormDefault="qualified">
+
+  <xsd:element name="bookstore" type="bookstoreType"/>
+
+  <xsd:complexType name="bookstoreType">
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element name="book" type="bookType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="bookType">
+    <xsd:sequence>
+      <xsd:element name="addr" type="xsd:string"/>
+      <xsd:element name="vulnerabilities" type="authorName"/>
+      <xsd:element name="price" type="xsd:decimal"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="authorName">
+    <xsd:sequence>
+      <xsd:element name="first-name" type="xsd:string"/>
+      <xsd:element name="last-name" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
