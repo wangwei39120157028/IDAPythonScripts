@@ -28,7 +28,7 @@
 	  
  4. 整型溢出漏洞  
       脚本首先计算当前分配给函数的内存大小，而后从IDA反汇编文件中找到各个函数的参数大小，并进行比较，检测是否存在“整型”溢出的可能。
-	  [参考链接1](https://www.cnblogs.com/M-Mr/p/3925096.html)&nbsp;[参考链接2](https://blog.csdn.net/qq_21063873/article/details/77678619)&nbsp;[参考链接3](https://github.com/lucky521 https://blog.csdn.net/luckyjoy521/article/details/12905405)  
+	  [参考链接1](https://www.cnblogs.com/M-Mr/p/3925096.html)&nbsp;[参考链接2](https://blog.csdn.net/qq_21063873/article/details/77678619)&nbsp;[参考链接3](https://blog.csdn.net/luckyjoy521/article/details/12905405)  
 	  缓冲区是变化的，因此检测出整型溢出的可能性很大，但是想用利用起来相对更难。  
 	  脚本执行完毕后会造成IDA闪退，原因未知...  
   ...
