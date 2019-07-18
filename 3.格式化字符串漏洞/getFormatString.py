@@ -8,11 +8,10 @@ from xml.dom.minidom import Document
 根据一个给定的XML Schema，使用DOM树的形式从空白文件生成一个XML
 '''
 
+doc = Document()  # 创建DOM文档对象
 
-doc = Document()  #创建DOM文档对象
-
-bookstore = doc.createElement('bookstore') #创建根元素
-bookstore.setAttribute('xmlns:xsi',"https://www.w3.org/2001/XMLSchema-instance")#设置命名空间
+bookstore = doc.createElement('bookstore') # 创建根元素
+bookstore.setAttribute('xmlns:xsi',"https://www.w3.org/2001/XMLSchema-instance")   # 设置命名空间
 bookstore.setAttribute('xsi:noNamespaceSchemaLocation','bookstore.xsd')#引用本地XML Schema
 doc.appendChild(bookstore)
 
@@ -26,9 +25,7 @@ title.appendChild(title_text)
 book.appendChild(title)
 
 class VulnChoose(Choose2):
-    """
-    Chooser class to display result of format string vuln scan
-    """
+    # 漏洞隐患函数判断类来显示格式字符串vuln扫描的结果
     def __init__(self, title, items, icon, embedded=False):
         Choose2.__init__(self, title, [["Address", 20], ["Function", 30], ["Format", 30]], embedded=embedded)
         self.items = items
@@ -53,19 +50,14 @@ class VulnChoose(Choose2):
         Jump(int(self.items[n][0], 16))
 
 def check_fmt_function(name, addr):
-	"""
-	Check if the format string argument is not valid
-	"""
+	# 检查格式字符串参数是否有效
 	function_head = GetFunctionAttr(addr, FUNCATTR_START)
-
 	while True:
 		addr = PrevHead(addr)
 		op = GetMnem(addr).lower()
 		dst = GetOpnd(addr, 0)
-
 		if op in ("ret", "retn", "jmp", "b") or addr < function_head:
 			return
-
 		c = GetCommentEx(addr, 0)
 		if c and c.lower() == "format":
 				break
@@ -89,14 +81,14 @@ def check_fmt_function(name, addr):
 										 dst.endswith("edi") and BITS == 64):
 				break
 
-	# format arg found, check its type and value
-	# get last oprend
+	# 找到格式化参，检查它的类型和值
+	# 获得最近一次操作数栈
 	op_index = GetDisasm(addr).count(",")
 	op_type = GetOpType(addr, op_index)
 	opnd = GetOpnd(addr, op_index)
 
 	if op_type == o_reg:
-		# format is in register, try to track back and get the source
+		# 格式化字符串在寄存器中，尝试回溯并获取其源文件
 		_addr = addr
 		while True:
 			_addr = PrevHead(_addr)
@@ -110,21 +102,19 @@ def check_fmt_function(name, addr):
 				break
 
 	if op_type == o_imm or op_type == o_mem:
-		# format is a memory address, check if it's in writable segment
+		# 检查格式化字符串隐患是否可利用
 		op_addr = GetOperandValue(addr, op_index)
 		seg = getseg(op_addr)
 		if seg:
 			if not seg.perm & SEGPERM_WRITE:
-				# format is in read-only segment
+				# 格式化段是只读模式
 				return
-
 	print "0x%X: Possible Vulnerability: %s, format = %s" % (addr, name, opnd)
 	return ["0x%X" % addr, name, opnd]
 
 #漏洞名称及地址
 vulnerabilities = doc.createElement('Vulnerabilities_FormatString')
 book.appendChild(vulnerabilities)
-
 
 price_size = 0
 print "\n[+] Finding Format String vulnerabilities,Potential vulnerabilities will be printed below,Please wait......"
@@ -152,13 +142,12 @@ if found:
         author_addr.appendChild(author_addr_text)
         book.appendChild(vulnerabilities)
         price_size += 5
-
     ch = VulnChoose("Vulnerability", found, None, False)
     ch.Show()
 else:
     print "[-] No format string vulnerabilities found."
 
-#这里写漏洞影响大小             
+# 这里写漏洞影响的相对评分             
 price = doc.createElement('price')
 price_text = doc.createTextNode(str(price_size))
 price.appendChild(price_text)
@@ -170,42 +159,3 @@ f.write(doc.toprettyxml(indent = ''))
 f.close()
 
 print("Format string vulnerabilities retrieval ended")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
