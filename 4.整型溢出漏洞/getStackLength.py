@@ -12,9 +12,9 @@ from xml.dom.minidom import Document
 
 doc = Document()  #创建DOM文档对象
 
-bookstore = doc.createElement('bookstore') #创建根元素
-bookstore.setAttribute('xmlns:xsi',"https://www.w3.org/2001/XMLSchema-instance")#设置命名空间
-bookstore.setAttribute('xsi:noNamespaceSchemaLocation','bookstore.xsd')#引用本地XML Schema
+bookstore = doc.createElement('bookstore')    #创建根元素
+bookstore.setAttribute('xmlns:xsi',"https://www.w3.org/2001/XMLSchema-instance")      #设置命名空间
+bookstore.setAttribute('xsi:noNamespaceSchemaLocation','bookstore.xsd')        #引用本地XML Schema
 doc.appendChild(bookstore)
 
 book = doc.createElement('book')
@@ -26,7 +26,7 @@ title_text = doc.createTextNode('IDAPython整型溢出漏洞检测') #元素内�
 title.appendChild(title_text)
 book.appendChild(title)
 
-var_size_threshold = 16  #阈值
+var_size_threshold = 16  #阈值默认为16
 current_addr = ScreenEA()  
 
 class AnayBinFil(object):
@@ -43,8 +43,6 @@ class AnayBinFil(object):
             return idc.Dword(ea)
         return GetString(ea)
         
-    
-    #get the register's content whose number is i from ea forward search
     def get_content_register(self,ea,i):
  
         if (GetOpType(ea,0) == 1 and GetOperandValue(ea,0) == i):# wanted register
@@ -68,16 +66,13 @@ class AnayBinFil(object):
         else:
             return self.get_content_register(PrevHead(ea),i)
  
- 
-    #from a call instruction BackForward search parameter
+    # 从一个调用指令反向搜索参数
     def BackForward(self,addr,n):
         Reg_content = []
         i = 0 # register number
         for i in range(n):
             Reg_content.append(self.get_content_register(addr,i))
- 
         return Reg_content
- 
  
     def Anayl_Func_Call(self, func_name, para_num):
          if func_name == "":
