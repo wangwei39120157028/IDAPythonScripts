@@ -3,7 +3,7 @@
 
 > IDAPythonScripts: 二进制漏洞静态分析检测脚本(IDA Pro)
 
-![fsociety](https://images.gitee.com/uploads/images/2021/0202/213932_6e4b146f_2323666.jpeg "src=http___static.ts.360.com_blog_wp-content_uploads_2016_08_160822-Post-fsociety-1.png&refer=http___static.ts.360.jpg")
+![fsociety](https://images.gitee.com/uploads/images/2021/0202/213932_6e4b146f_2323666.jpeg)
 
 #### QQ交流群：813115551
 #### 加微信-进入交流群：wwy18795980897
